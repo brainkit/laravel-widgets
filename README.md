@@ -1,7 +1,7 @@
-[![Total Downloads](https://img.shields.io/packagist/dt/Arrilot/laravel-widgets.svg?style=flat)](https://packagist.org/packages/Arrilot/laravel-widgets)
-[![Build Status](https://img.shields.io/travis/Arrilot/laravel-widgets/master.svg?style=flat)](https://travis-ci.org/Arrilot/laravel-widgets)
-[![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/Arrilot/laravel-widgets/master.svg?style=flat)](https://scrutinizer-ci.com/g/Arrilot/laravel-widgets/)
-[![MIT License](https://img.shields.io/packagist/l/Arrilot/laravel-widgets.svg?style=flat)](https://packagist.org/packages/Arrilot/laravel-widgets)
+[![Total Downloads](https://img.shields.io/packagist/dt/Arrilot/laravel-widgets.svg?style=flat)](https://packagist.org/packages/brainkit/laravel-widgets)
+[![Build Status](https://img.shields.io/travis/Arrilot/laravel-widgets/master.svg?style=flat)](https://travis-ci.org/brainkit/laravel-widgets)
+[![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/brainkit/laravel-widgets/master.svg?style=flat)](https://scrutinizer-ci.com/g/Arrilot/laravel-widgets/)
+[![MIT License](https://img.shields.io/packagist/l/brainkit/laravel-widgets.svg?style=flat)](https://packagist.org/packages/Arrilot/laravel-widgets)
 
 #Widgets for Laravel
 
@@ -11,7 +11,7 @@
 
 ## Installation
 
-1) Run ```composer require arrilot/laravel-widgets```
+1) Run ```composer require brainkit/laravel-widgets```
 
 2) Register a service provider in the `app.php` configuration file
 
@@ -20,7 +20,7 @@
 
 'providers' => [
     ...
-    'Arrilot\Widgets\ServiceProvider',
+    'Brainkit\Widgets\ServiceProvider',
 ],
 ?>
 ```
@@ -32,8 +32,8 @@
 
 'aliases' => [
     ...
-    'Widget'       => 'Arrilot\Widgets\Facade',
-    'AsyncWidget'  => 'Arrilot\Widgets\AsyncFacade',
+    'Widget'       => 'Brainkit\Widgets\Facade',
+    'AsyncWidget'  => 'Brainkit\Widgets\AsyncFacade',
 ],
 ?>
 ```
@@ -59,7 +59,7 @@ Omit "--view" option if you do not need it.
 
 namespace App\Widgets;
 
-use Arrilot\Widgets\AbstractWidget;
+use Brainkit\Widgets\AbstractWidget;
 
 class RecentNews extends AbstractWidget
 {

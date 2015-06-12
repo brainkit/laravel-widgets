@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Arrilot\\Widgets\\": "src/"
+            "Brainkit\\Widgets\\": "src/"
         }
     },
     "autoload-dev": {

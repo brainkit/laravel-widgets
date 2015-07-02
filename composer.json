@@ -1,0 +1,30 @@
+{
+    "name": "arrilot/laravel-widgets",
+    "description": "This package provides widget functionality to boost your Laravel views. It also includes asynchronous widgets, reloadable widgets, generator and etc.",
+    "license": "MIT",
+    "keywords": ["laravel", "widgets", "ajax"],
+    "authors": [
+        {
+            "name": "Nekrasov Ilya",
+            "email": "nekrasov.ilya90@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/Arrilot/laravel-widgets",
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "5.*"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Arrilot\\Widgets\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "spec/Dummies"
+        ]
+    }
+}

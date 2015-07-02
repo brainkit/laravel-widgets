@@ -1,5 +1,12 @@
-/vendor
+/vendor/
+/nbproject/private/
+/nbproject/
+/nbproject/*
+/.idea/
 composer.phar
 composer.lock
+.env.*.php
+.env.php
 .DS_Store
-/.idea
+Thumbs.db
+database.php

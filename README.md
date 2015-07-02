@@ -1,9 +1,4 @@
-[![Total Downloads](https://img.shields.io/packagist/dt/Arrilot/laravel-widgets.svg?style=flat)](https://packagist.org/packages/brainkit/laravel-widgets)
-[![Build Status](https://img.shields.io/travis/Arrilot/laravel-widgets/master.svg?style=flat)](https://travis-ci.org/brainkit/laravel-widgets)
-[![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/brainkit/laravel-widgets/master.svg?style=flat)](https://scrutinizer-ci.com/g/Arrilot/laravel-widgets/)
-[![MIT License](https://img.shields.io/packagist/l/brainkit/laravel-widgets.svg?style=flat)](https://packagist.org/packages/Arrilot/laravel-widgets)
-
-#Widgets for Laravel 5
+ #Widgets for Laravel 5
 
 *This package provides widget functionality to boost your Laravel views. It also includes asynchronous widgets, reloadable widgets, generator and etc.*
 

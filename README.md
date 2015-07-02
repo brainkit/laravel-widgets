@@ -1,4 +1,4 @@
- #Widgets for Laravel 5
+#Widgets for Laravel 5
 
 *This package provides widget functionality to boost your Laravel views. It also includes asynchronous widgets, reloadable widgets, generator and etc.*
 

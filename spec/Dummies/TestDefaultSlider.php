@@ -2,7 +2,7 @@
 
 namespace App\Widgets;
 
-use Arrilot\Widgets\AbstractWidget;
+use Brainkit\Widgets\AbstractWidget;
 
 class TestDefaultSlider extends AbstractWidget
 {

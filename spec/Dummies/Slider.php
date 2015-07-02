@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Arrilot\Widgets\Dummies;
+namespace spec\Brainkit\Widgets\Dummies;
 
-use Arrilot\Widgets\AbstractWidget;
+use Brainkit\Widgets\AbstractWidget;
 
 class Slider extends AbstractWidget
 {

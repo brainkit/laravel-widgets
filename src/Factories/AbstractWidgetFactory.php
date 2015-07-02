@@ -1,26 +1,16 @@
-<?php
+<?php namespace Brainkit\Widgets\Factories;
 
-namespace Arrilot\Widgets\Factories;
+use Brainkit\Widgets\AbstractWidget;
+use Brainkit\Widgets\InvalidWidgetClassException;
 
-use Arrilot\Widgets\AbstractWidget;
-use Arrilot\Widgets\Misc\InvalidWidgetClassException;
-use Arrilot\Widgets\WidgetId;
+abstract class AbstractWidgetFactory {
 
-abstract class AbstractWidgetFactory
-{
     /**
      * Factory config.
      *
      * @var array
      */
-    protected $config;
-
-    /**
-     * Widget object to work with.
-     *
-     * @var AbstractWidget
-     */
-    protected $widget;
+    protected $factoryConfig;
 
     /**
      * Widget configuration array.
@@ -34,52 +24,36 @@ abstract class AbstractWidgetFactory
      *
      * @var string
      */
-    public $widgetName;
+    protected $widgetName;
 
     /**
      * Array of widget parameters excluding the first one (config).
      *
      * @var array
      */
-    public $widgetParams;
+    protected $widgetParams;
 
     /**
      * Array of widget parameters including the first one (config).
      *
      * @var array
      */
-    public $widgetFullParams;
+    protected $widgetFullParams;
 
     /**
      * Laravel application wrapper for better testability.
      *
-     * @var \Arrilot\Widgets\Misc\Wrapper;
+     * @var \Brainkit\Widgets\Misc\Wrapper;
      */
-    public $wrapper;
+    protected $wrapper;
 
     /**
-     * Another factory that produces some javascript.
-     *
-     * @var JavascriptFactory
-     */
-    protected $javascriptFactory;
-
-    /**
-     * The flag for not wrapping content in a special container.
-     *
-     * @var bool
-     */
-    public static $skipWidgetContainer = false;
-
-    /**
-     * @param $config
+     * @param $factoryConfig
      * @param $wrapper
      */
-    public function __construct($config, $wrapper)
-    {
-        $this->config = $config;
+    public function __construct($factoryConfig, $wrapper) {
+        $this->factoryConfig = $factoryConfig;
         $this->wrapper = $wrapper;
-        $this->javascriptFactory = new JavascriptFactory($this);
     }
 
     /**
@@ -90,8 +64,7 @@ abstract class AbstractWidgetFactory
      *
      * @return mixed
      */
-    public function __call($widgetName, array $params = [])
-    {
+    public function __call($widgetName, array $params = []) {
         array_unshift($params, $widgetName);
 
         return call_user_func_array([$this, 'run'], $params);
@@ -102,16 +75,16 @@ abstract class AbstractWidgetFactory
      *
      * @return mixed
      */
-    protected function determineWidgetNamespace()
-    {
-        // search in custom namespaces first
-        foreach ([$this->widgetName, strtolower($this->widgetName)] as $name) {
-            if (array_key_exists($name, $this->config['customNamespaces'])) {
-                return $this->config['customNamespaces'][$name];
+    protected function determineNamespace() {
+        foreach ([$this->widgetName, strtolower($this->widgetName)] as $name)
+        {
+            if (array_key_exists($name, $this->factoryConfig['customNamespaces']))
+            {
+                return $this->factoryConfig['customNamespaces'][$name];
             }
         }
 
-        return $this->config['defaultNamespace'];
+        return $this->factoryConfig['defaultNamespace'];
     }
 
     /**
@@ -120,24 +93,29 @@ abstract class AbstractWidgetFactory
      * @param $params
      *
      * @throws InvalidWidgetClassException
+     *
+     * @return mixed
      */
-    protected function instantiateWidget(array $params = [])
-    {
-        WidgetId::increment();
+    protected function instantiateWidget(array $params = []) {
 
-        $this->widgetName = $this->parseFullWidgetNameFromString(array_shift($params));
+        $widgetClass = $this->determineNamespace() . '\\' . $this->widgetName . '\\Widget' . $this->widgetName;
+        /* if ($config = $this->getConfigFile($widgetClass))
+          {
+          if (is_array($config) and isset($params[0]))  $params[0] = array_merge($config, $params[0]);
+          } */
         $this->widgetFullParams = $params;
         $this->widgetConfig = array_shift($params);
         $this->widgetParams = $params;
+        // \Debugbar::info($widgetClass);
 
-        $widgetClass = $this->determineWidgetNamespace().'\\'.$this->widgetName;
 
         $widget = new $widgetClass($this->widgetConfig);
-        if ($widget instanceof AbstractWidget === false) {
+        if ($widget instanceof AbstractWidget === false)
+        {
             throw new InvalidWidgetClassException();
         }
 
-        $this->widget = $widget;
+        return $widget;
     }
 
     /**
@@ -147,24 +125,24 @@ abstract class AbstractWidgetFactory
      *
      * @return string
      */
-    protected function parseFullWidgetNameFromString($widgetName)
-    {
-        return studly_case(str_replace('.', '\\', $widgetName));
+    protected function parseFullWidgetNameFromString($widgetName) {
+        $this->widgetName = studly_case(str_replace('.', '\\', $widgetName));
     }
 
-    /**
-     * Wrap the given content in a container if it's not an ajax call.
-     *
-     * @param $content
-     *
-     * @return string
-     */
-    protected function wrapContentInContainer($content)
-    {
-        if (self::$skipWidgetContainer) {
-            return $content;
-        }
+    /* private function getConfigFile($widget) {
+      $config = false;
 
-        return '<div id="'.$this->javascriptFactory->getContainerId().'" style="display:inline" class="'.$this->widget->cssClassForWrapper.'">'.$content.'</div>';
-    }
+      $reflector = new \ReflectionClass($widget);
+      $fn = $reflector->getFileName();
+      $fpath = dirname($fn);
+      $fileConfig = $fpath . "/Config" . "$this->widgetName" . ".php";
+      if (is_file($fileConfig))
+      {
+
+      $config = require_once ($fileConfig);
+      }
+
+      // \Debugbar::info($config);
+      return $config;
+      } */
 }

@@ -1,15 +1,15 @@
 {
-    "name": "arrilot/laravel-widgets",
-    "description": "This package provides widget functionality to boost your Laravel views. It also includes asynchronous widgets, reloadable widgets, generator and etc.",
+    "name": "brainkit/laravel-widgets",
+    "description": "This packages provides widget functionality to boost your Laravel views. Includes asynchronous mode and generator.",
     "license": "MIT",
-    "keywords": ["laravel", "widgets", "ajax"],
+    "keywords": ["laravel", "widgets"],
     "authors": [
         {
             "name": "Lebedev Sergey",
             "email": "syrex88@gmail.com"
         }
     ],
-    "homepage": "https://github.com/brainkit/laravel-widgets",
+    "homepage": "https://github.com/Brainkit/laravel-widgets",
     "require": {
         "php": ">=5.4.0",
         "illuminate/support": "5.*"
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Arrilot\\Widgets\\": "src/"
+            "Brainkit\\Widgets\\": "src/"
         }
     },
     "autoload-dev": {

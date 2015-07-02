@@ -1,6 +1,6 @@
 <?php
 
-namespace Arrilot\Widgets\Misc;
+namespace Brainkit\Widgets\Misc;
 
 class Wrapper
 {

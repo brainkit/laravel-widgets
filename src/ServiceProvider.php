@@ -1,11 +1,11 @@
 <?php
 
-namespace Arrilot\Widgets;
+namespace Brainkit\Widgets;
 
-use Arrilot\Widgets\Console\WidgetMakeCommand;
-use Arrilot\Widgets\Factories\AsyncWidgetFactory;
-use Arrilot\Widgets\Factories\WidgetFactory;
-use Arrilot\Widgets\Misc\Wrapper;
+use Brainkit\Widgets\Console\WidgetMakeCommand;
+use Brainkit\Widgets\Factories\AsyncWidgetFactory;
+use Brainkit\Widgets\Factories\WidgetFactory;
+use Brainkit\Widgets\Misc\Wrapper;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Support\Facades\Blade;
 
@@ -29,11 +29,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'customNamespaces' => config('laravel-widgets.custom_namespaces_for_specific_widgets', []),
         ];
 
-        $this->app->bind('arrilot.widget', function () use ($config) {
+        $this->app->bind('brainkit.widget', function () use ($config) {
             return new WidgetFactory($config, new Wrapper());
         });
 
-        $this->app->bind('arrilot.async-widget', function () use ($config) {
+        $this->app->bind('brainkit.async-widget', function () use ($config) {
             return new AsyncWidgetFactory($config, new Wrapper());
         });
 
@@ -56,12 +56,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ]);
 
         $routeConfig = [
-            'namespace' => 'Arrilot\Widgets\Controllers',
-            'prefix'    => 'arrilot',
+            'namespace' => 'Brainkit\Widgets\Controllers',
+            'prefix'    => 'brainkit',
         ];
 
         $this->app['router']->group($routeConfig, function ($router) {
-            $router->post('load-widget', 'WidgetController@showWidget');
+            $router->post('async-widget', 'WidgetController@showAsyncWidget');
         });
 
         $this->registerBladeExtensions();
@@ -74,7 +74,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function provides()
     {
-        return ['arrilot.widget', 'arrilot.async-widget'];
+        return ['brainkit.widget', 'brainkit.async-widget'];
     }
 
     /**
@@ -92,18 +92,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             $pattern = $this->createMatcher('async-widget');
 
             return preg_replace($pattern, '$1<?php echo AsyncWidget::run$2; ?>', $view);
-        });
-
-        Blade::extend(function ($view) {
-            $pattern = $this->createMatcher('asyncWidget');
-
-            return preg_replace($pattern, '$1<?php echo AsyncWidget::run$2; ?>', $view);
-        });
-
-        Blade::extend(function ($view) {
-            $pattern = $this->createMatcher('widgetGroup');
-
-            return preg_replace($pattern, '$1<?php echo Widget::group$2->display(); ?>', $view);
         });
     }
 

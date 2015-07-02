@@ -1,34 +1,28 @@
-<?php
+<?php namespace Brainkit\Widgets;
 
-namespace Arrilot\Widgets;
-
-abstract class AbstractWidget
-{
-    /**
-     * The number of seconds before each reload.
-     *
-     * @var int|float
-     */
-    public $reloadTimeout;
+abstract class AbstractWidget {
 
     /**
-     * The css class or classes that are applied to a special container (div)
-     * that wraps all widget content.
+     * Id for async widget.
      *
-     * @var string
+     * @var int
      */
-    public $cssClassForWrapper = 'arrilot-widget-container';
-
+    public static $incrementingId = 0;
+    public static $cacheId;
+    
     /**
      * Constructor.
      *
      * @param $config
      */
-    public function __construct($config)
-    {
-        if (!empty($config)) {
-            foreach ($config as $property => $value) {
-                if (property_exists($this, $property)) {
+    public function __construct($config) {
+        
+        if (!empty($config))
+        {
+            foreach ($config as $property => $value)
+            {
+                if (property_exists($this, $property))
+                {
                     $this->$property = $value;
                 }
             }
@@ -40,8 +34,17 @@ abstract class AbstractWidget
      *
      * @return string
      */
-    public function placeholder()
-    {
+    public function placeholder() {
         return '';
     }
+
+    /**
+     * Resets the incrementing id to 0.
+     *
+     * @return string
+     */
+    public static function resetId() {
+        self::$incrementingId = 0;
+    }
+
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Arrilot\Widgets;
+namespace Brainkit\Widgets;
 
-use Arrilot\Widgets\Misc\Wrapper;
+use Brainkit\Widgets\Misc\Wrapper;
 
 class WidgetGroup
 {
@@ -69,7 +69,13 @@ class WidgetGroup
      */
     public function addWidget()
     {
-        $this->addWidgetWithType('sync', func_get_args());
+        $this->widgets[] = [
+            'arguments' => func_get_args(),
+            'type'      => 'sync',
+            'position'  => $this->position,
+        ];
+
+        $this->resetPosition();
     }
 
     /**
@@ -77,7 +83,13 @@ class WidgetGroup
      */
     public function addAsyncWidget()
     {
-        $this->addWidgetWithType('async', func_get_args());
+        $this->widgets[] = [
+            'arguments' => func_get_args(),
+            'type'      => 'async',
+            'position'  => $this->position,
+        ];
+
+        $this->resetPosition();
     }
 
     /**
@@ -109,7 +121,7 @@ class WidgetGroup
      */
     protected function displayWidget($widget)
     {
-        $factory = (new Wrapper())->appMake($widget['type'] === 'sync' ? 'arrilot.widget' : 'arrilot.async-widget');
+        $factory = (new Wrapper())->appMake($widget['type'] === 'sync' ? 'brainkit.widget' : 'brainkit.async-widget');
 
         return call_user_func_array([$factory, 'run'], $widget['arguments']);
     }
@@ -131,22 +143,5 @@ class WidgetGroup
         return array_values(array_sort($this->widgets, function ($value) {
             return $value['position'];
         }));
-    }
-
-    /**
-     * Add a widget with a given type to the array.
-     *
-     * @param string $type
-     * @param array  $arguments
-     */
-    protected function addWidgetWithType($type, array $arguments = [])
-    {
-        $this->widgets[] = [
-            'arguments' => $arguments,
-            'type'      => $type,
-            'position'  => $this->position,
-        ];
-
-        $this->resetPosition();
     }
 }

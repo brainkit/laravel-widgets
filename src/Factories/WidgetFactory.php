@@ -1,16 +1,9 @@
-<?php
+<?php namespace Brainkit\Widgets\Factories;
 
-namespace Arrilot\Widgets\Factories;
+use Brainkit\Widgets\WidgetGroup;
 
-use Arrilot\Widgets\WidgetGroup;
+class WidgetFactory extends AbstractWidgetFactory {
 
-class WidgetFactory extends AbstractWidgetFactory
-{
-    /**
-     * The array of widget groups.
-     *
-     * @var array
-     */
     protected $groups;
 
     /**
@@ -18,27 +11,14 @@ class WidgetFactory extends AbstractWidgetFactory
      *
      * @return mixed
      */
-    public function run()
-    {
-        $this->instantiateWidget(func_get_args());
+    public function run() {
+        $params = func_get_args();
+        $widgetName = array_shift($params);
+        $this->parseFullWidgetNameFromString($widgetName);
 
-        $content = $this->wrapper->appCall([$this->widget, 'run'], $this->widgetParams);
-
-        if ($timeout = $this->getReloadTimeout()) {
-            $content .= $this->javascriptFactory->getReloader($timeout);
-        }
-
-        return $this->wrapContentInContainer($content);
-    }
-
-    /**
-     * Get widget reload timeout or false if it's not reloadable.
-     *
-     * @return bool|float|int
-     */
-    protected function getReloadTimeout()
-    {
-        return isset($this->widget) && $this->widget->reloadTimeout ? $this->widget->reloadTimeout : false;
+        $widget = $this->instantiateWidget($params);
+      
+        return $this->wrapper->appCall([$widget, 'run'], $this->widgetParams);
     }
 
     /**
@@ -48,9 +28,9 @@ class WidgetFactory extends AbstractWidgetFactory
      *
      * @return mixed
      */
-    public function group($name)
-    {
-        if ($this->groups[$name]) {
+    public function group($name) {
+        if ($this->groups[$name])
+        {
             return $this->groups[$name];
         }
 
@@ -58,4 +38,5 @@ class WidgetFactory extends AbstractWidgetFactory
 
         return $this->groups[$name];
     }
+
 }

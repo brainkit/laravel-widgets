@@ -2,7 +2,7 @@
 
 namespace App\Widgets\Profile\TestNamespace;
 
-use Arrilot\Widgets\AbstractWidget;
+use Brainkit\Widgets\AbstractWidget;
 
 class TestFeed extends AbstractWidget
 {

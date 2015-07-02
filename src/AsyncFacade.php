@@ -1,11 +1,11 @@
 <?php
 
-namespace Arrilot\Widgets;
+namespace Brainkit\Widgets;
 
 class AsyncFacade extends \Illuminate\Support\Facades\Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'arrilot.async-widget';
+        return 'brainkit.async-widget';
     }
 }

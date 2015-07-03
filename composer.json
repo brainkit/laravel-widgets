@@ -1,0 +1,30 @@
+{
+    "name": "brainkit/laravel-widgets",
+    "description": "This packages provides widget functionality to boost your Laravel views. Includes asynchronous mode and generator.",
+    "license": "MIT",
+    "keywords": ["laravel", "widgets"],
+    "authors": [
+        {
+            "name": "Lebedev Sergey",
+            "email": "syrex88@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/Brainkit/laravel-widgets",
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "5.*"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brainkit\\Widgets\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "spec/Dummies"
+        ]
+    }
+}

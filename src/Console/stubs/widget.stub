@@ -1,0 +1,17 @@
+<?php
+
+namespace {{namespace}};
+
+use Brainkit\Widgets\AbstractWidget;
+
+class {{class}} extends AbstractWidget
+{
+    /**
+     * Treat this method just like a controller action.
+     * Return a view or anything else you want to display.
+     */
+	public function run()
+	{
+
+	}
+}

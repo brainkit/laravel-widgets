@@ -1,16 +1,19 @@
 <?php
 
-namespace spec\Brainkit\Widgets\Dummies;
+namespace Brainkit\Widgets\Test\Dummies;
 
 use Brainkit\Widgets\AbstractWidget;
 
 class Slider extends AbstractWidget
 {
-    protected $slides = 6;
+    protected $config = [
+        'slides' => 6,
+        'foo'    => 'bar',
+    ];
 
     public function run()
     {
-        return "Slider was executed with \$slides = ".$this->slides;
+        return "Slider was executed with \$slides = ".$this->config['slides'].' foo: '.$this->config['foo'];
     }
 
     public function placeholder()

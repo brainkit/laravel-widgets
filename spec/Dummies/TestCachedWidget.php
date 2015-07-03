@@ -4,12 +4,14 @@ namespace Brainkit\Widgets\Test\Dummies;
 
 use Brainkit\Widgets\AbstractWidget;
 
-class TestDefaultSlider extends AbstractWidget
+class TestCachedWidget extends AbstractWidget
 {
+    public $cacheTime = 60;
+
     protected $slides = 6;
 
     public function run()
     {
-        return "Default test slider was executed with \$slides = ".$this->slides;
+        return "Feed was executed with \$slides = ".$this->slides;
     }
 }

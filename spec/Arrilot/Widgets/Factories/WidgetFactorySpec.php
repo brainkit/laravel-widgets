@@ -2,21 +2,26 @@
 
 namespace spec\Brainkit\Widgets\Factories;
 
-use App\Widgets\Profile\TestNamespace\TestFeed;
-use App\Widgets\TestDefaultSlider;
-use App\Widgets\TestMyClass;
-use App\Widgets\TestRepeatableFeed;
-use App\Widgets\TestWidgetWithCustomCssClass;
-use App\Widgets\TestWidgetWithDIInRun;
-use App\Widgets\TestWidgetWithParamsInRun;
-use Brainkit\Widgets\Misc\Wrapper;
+use Brainkit\Widgets\Misc\LaravelApplicationWrapper;
+use Brainkit\Widgets\Test\Dummies\Profile\TestNamespace\TestFeed;
+use Brainkit\Widgets\Test\Dummies\Slider;
+use Brainkit\Widgets\Test\Dummies\TestCachedWidget;
+use Brainkit\Widgets\Test\Dummies\TestDefaultSlider;
+use Brainkit\Widgets\Test\Dummies\TestMyClass;
+use Brainkit\Widgets\Test\Dummies\TestRepeatableFeed;
+use Brainkit\Widgets\Test\Dummies\TestWidgetWithCustomContainer;
+use Brainkit\Widgets\Test\Dummies\TestWidgetWithDIInRun;
+use Brainkit\Widgets\Test\Dummies\TestWidgetWithParamsInRun;
 use Brainkit\Widgets\WidgetId;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use spec\Brainkit\Widgets\Dummies\Slider;
 
 class WidgetFactorySpec extends ObjectBehavior
 {
+    protected $config = [
+        'defaultNamespace' => 'Brainkit\Widgets\Test\Dummies',
+    ];
+
     /**
      * A mock for producing JS object for ajax.
      *
@@ -35,16 +40,7 @@ class WidgetFactorySpec extends ObjectBehavior
         ]);
     }
 
-    protected $config = [
-        'defaultNamespace' => 'App\Widgets',
-        'customNamespaces' => [
-                'slider'             => 'spec\Brainkit\Widgets\Dummies',
-                'testRepeatableFeed' => 'spec\Brainkit\Widgets\Dummies',
-                'testWidgetName'     => '',
-            ],
-        ];
-
-    public function let(Wrapper $wrapper)
+    public function let(LaravelApplicationWrapper $wrapper)
     {
         $this->beConstructedWith($this->config, $wrapper);
         WidgetId::reset();
@@ -55,36 +51,36 @@ class WidgetFactorySpec extends ObjectBehavior
         $this->shouldHaveType('Brainkit\Widgets\Factories\WidgetFactory');
     }
 
-    public function it_can_run_widget_from_default_namespace(Wrapper $wrapper)
+    public function it_can_run_widget_from_default_namespace(LaravelApplicationWrapper $wrapper)
     {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new TestDefaultSlider([]), 'run'], [])
         );
         $this->testDefaultSlider()
             ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Default test slider was executed with $slides = 6</div>'
+                'Default test slider was executed with $slides = 6'
             );
     }
 
-    public function it_can_run_widget_from_custom_namespace(Wrapper $wrapper)
+    public function it_allows_its_config_to_be_partly_overwritten(LaravelApplicationWrapper $wrapper)
     {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
-            call_user_func_array([new Slider([]), 'run'], [])
-        );
-        $this->slider()
-            ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 6</div>'
-            );
-    }
-
-    public function it_provides_config_override(Wrapper $wrapper)
-    {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new Slider(['slides' => 5]), 'run'], ['slides' => 5])
         );
         $this->slider(['slides' => 5])
             ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 5</div>'
+                'Slider was executed with $slides = 5 foo: bar'
+            );
+    }
+
+    public function it_allows_its_config_to_be_overwritten(LaravelApplicationWrapper $wrapper)
+    {
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
+            call_user_func_array([new Slider(['slides' => 5, 'foo' => 'baz']), 'run'], ['slides' => 5, 'foo' => 'baz'])
+        );
+        $this->slider(['slides' => 5, 'foo' => 'baz'])
+            ->shouldReturn(
+                'Slider was executed with $slides = 5 foo: baz'
             );
     }
 
@@ -93,98 +89,98 @@ class WidgetFactorySpec extends ObjectBehavior
         $this->shouldThrow('\Brainkit\Widgets\Misc\InvalidWidgetClassException')->during('testBadSlider');
     }
 
-    public function it_can_run_widgets_with_additional_params(Wrapper $wrapper)
+    public function it_can_run_widgets_with_additional_params(LaravelApplicationWrapper $wrapper)
     {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new TestWidgetWithParamsInRun([]), 'run'], ['asc'])
         );
         $this->testWidgetWithParamsInRun([], 'asc')
             ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">TestWidgetWithParamsInRun was executed with $flag = asc</div>'
+                'TestWidgetWithParamsInRun was executed with $flag = asc'
             );
     }
 
-    public function it_can_run_widgets_with_method_injection(Wrapper $wrapper)
+    public function it_can_run_widgets_with_method_injection(LaravelApplicationWrapper $wrapper)
     {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new TestWidgetWithDIInRun([]), 'run'], [new TestMyClass()])
         );
         $this->testWidgetWithParamsInRun()
             ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">bar</div>'
+                'bar'
             );
     }
 
-    public function it_can_run_widgets_with_run_method(Wrapper $wrapper)
+    public function it_can_run_widgets_with_run_method_and_config_override(LaravelApplicationWrapper $wrapper)
     {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
-            call_user_func_array([new TestDefaultSlider([]), 'run'], [])
-        );
-        $this->run('testDefaultSlider')
-            ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Default test slider was executed with $slides = 6</div>'
-            );
-    }
-
-    public function it_can_run_widgets_with_run_method_and_config_override(Wrapper $wrapper)
-    {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new Slider(['slides' => 5]), 'run'], ['slides' => 5])
         );
         $this->run('slider', ['slides' => 5])
             ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 5</div>'
+                'Slider was executed with $slides = 5 foo: bar'
             );
     }
 
-    public function it_can_run_nested_widgets(Wrapper $wrapper)
+    public function it_can_run_widgets_using_global_namespace(LaravelApplicationWrapper $wrapper)
     {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
+            call_user_func_array([new TestDefaultSlider([]), 'run'], [])
+        );
+        $this->run('\Brainkit\Widgets\Test\Dummies\TestDefaultSlider')
+            ->shouldReturn(
+                'Default test slider was executed with $slides = 6'
+            );
+    }
+
+    public function it_can_run_nested_widgets(LaravelApplicationWrapper $wrapper)
+    {
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new TestFeed([]), 'run'], [])
         );
         $this->run('Profile\TestNamespace\TestFeed', ['slides' => 5])
             ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Feed was executed with $slides = 6</div>'
+                'Feed was executed with $slides = 6'
             );
     }
 
-    public function it_can_run_nested_widgets_with_dot_notation(Wrapper $wrapper)
+    public function it_can_run_nested_widgets_with_dot_notation(LaravelApplicationWrapper $wrapper)
     {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new TestFeed([]), 'run'], [])
         );
         $this->run('profile.testNamespace.testFeed', ['slides' => 5])
             ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Feed was executed with $slides = 6</div>'
+                'Feed was executed with $slides = 6'
             );
     }
 
-    public function it_can_run_multiple_widgets(Wrapper $wrapper)
+    public function it_can_run_multiple_widgets(LaravelApplicationWrapper $wrapper)
     {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new Slider([]), 'run'], [])
         );
         $this->slider()
             ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 6</div>'
+                'Slider was executed with $slides = 6 foo: bar'
             );
 
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new Slider(['slides' => 5]), 'run'], ['slides' => 5])
         );
         $this->slider(['slides' => 5])
             ->shouldReturn(
-                '<div id="brainkit-widget-container-2" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 5</div>'
+                'Slider was executed with $slides = 5 foo: bar'
             );
     }
 
-    public function it_can_run_async_widget(Wrapper $wrapper)
+    public function it_can_run_reloadable_widget(LaravelApplicationWrapper $wrapper)
     {
         $config = [];
         $params = [$config];
 
         $wrapper->csrf_token()->willReturn('token_stub');
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
             call_user_func_array([new TestRepeatableFeed([]), 'run'], [])
         );
 
@@ -196,14 +192,31 @@ class WidgetFactorySpec extends ObjectBehavior
             );
     }
 
-    public function it_can_be_configurate_to_use_custom_css_class_in_wrapper(Wrapper $wrapper)
+    public function it_can_run_widget_with_custom_container(LaravelApplicationWrapper $wrapper)
     {
-        $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
-            call_user_func_array([new TestWidgetWithCustomCssClass([]), 'run'], [])
+        $config = [];
+        $params = [$config];
+
+        $wrapper->csrf_token()->willReturn('token_stub');
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
+            call_user_func_array([new TestWidgetWithCustomContainer([]), 'run'], [])
         );
-        $this->run('testWidgetWithCustomCssClass')
+
+        $this->testWidgetWithCustomContainer($config)
             ->shouldReturn(
-                '<div id="brainkit-widget-container-1" style="display:inline" class="dummyClass">Dummy Content</div>'
+                '<p id="brainkit-widget-container-1" data-id="123">Dummy Content'.
+                '<script type="text/javascript">setTimeout( function() { $(\'#brainkit-widget-container-1\').load(\'/brainkit/load-widget\', '.$this->mockProduceJavascriptData('TestWidgetWithCustomContainer', $params).') }, 10000)</script>'.
+                '</p>'
             );
+    }
+
+    public function it_can_cache_widgets(LaravelApplicationWrapper $wrapper)
+    {
+        $wrapper->call(Argument::any(), Argument::any())->willReturn(
+            call_user_func_array([new TestCachedWidget(['slides' => 5]), 'run'], [])
+        );
+        $wrapper->cache(Argument::any(), Argument::any(), Argument::any())->shouldBeCalled();
+
+        $this->run('testCachedWidget', ['slides' => 5]);
     }
 }

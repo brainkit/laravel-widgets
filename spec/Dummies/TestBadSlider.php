@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Widgets;
+namespace Brainkit\Widgets\Test\Dummies;
 
 class TestBadSlider
 {

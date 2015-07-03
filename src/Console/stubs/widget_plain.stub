@@ -7,22 +7,11 @@ use Brainkit\Widgets\AbstractWidget;
 class {{class}} extends AbstractWidget
 {
     /**
-     * The configuration array.
-     *
-     * @var array
-     */
-    protected $config = [];
-
-    /**
      * Treat this method as a controller action.
      * Return view() or other content to display.
      */
     public function run()
     {
         //
-
-        return view("{{view}}", [
-            'config' => $this->config,
-        ]);
     }
 }

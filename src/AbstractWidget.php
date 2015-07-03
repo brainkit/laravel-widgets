@@ -1,50 +1,78 @@
-<?php namespace Brainkit\Widgets;
+<?php
 
-abstract class AbstractWidget {
+namespace Brainkit\Widgets;
+
+abstract class AbstractWidget
+{
+    /**
+     * The number of seconds before each reload.
+     * False means no reload at all.
+     *
+     * @var int|float|bool
+     */
+    public $reloadTimeout = false;
 
     /**
-     * Id for async widget.
+     * The number of minutes before cache expires.
+     * False means no caching at all.
      *
-     * @var int
+     * @var int|float|bool
      */
-    public static $incrementingId = 0;
-    public static $cacheId;
-    
+    public $cacheTime = false;
+
+    /**
+     * The configuration array.
+     *
+     * @var array
+     */
+    protected $config = [];
+
     /**
      * Constructor.
      *
-     * @param $config
+     * @param array $config
      */
-    public function __construct($config) {
-        
-        if (!empty($config))
-        {
-            foreach ($config as $property => $value)
-            {
-                if (property_exists($this, $property))
-                {
-                    $this->$property = $value;
-                }
-            }
+    public function __construct(array $config = [])
+    {
+        foreach ($config as $key => $value) {
+            $this->config[$key] = $value;
         }
     }
 
     /**
      * Placeholder for async widget.
+     * You can customize it by overwriting this method.
      *
      * @return string
      */
-    public function placeholder() {
+    public function placeholder()
+    {
         return '';
     }
 
     /**
-     * Resets the incrementing id to 0.
+     * Async and reloadable widgets are wrapped in container.
+     * You can customize it by overwriting this method.
+     *
+     * @return array
+     */
+    public function container()
+    {
+        return [
+            'element'       => 'div',
+            'attributes'    => 'style="display:inline" class="brainkit-widget-container"',
+        ];
+    }
+
+    /**
+     * Cache key that is used if caching is enabled.
+     *
+     * @param $params
      *
      * @return string
      */
-    public static function resetId() {
-        self::$incrementingId = 0;
+    public function cacheKey(array $params = [])
+    {
+        return 'brainkit.widgets.'.serialize($params);
     }
-
 }

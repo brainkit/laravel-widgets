@@ -2,6 +2,8 @@
 
 namespace Brainkit\Widgets\Controllers;
 
+use Brainkit\Widgets\Factories\AbstractWidgetFactory;
+use Brainkit\Widgets\WidgetId;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
@@ -14,12 +16,25 @@ class WidgetController extends BaseController
      *
      * @return mixed
      */
-    public function showAsyncWidget(Request $request)
+    public function showWidget(Request $request)
     {
-        $factory      = app()->make('brainkit.widget');
-        $widgetName   = $request->get('name', '');
-        $widgetParams = unserialize($request->get('params', ''));
+        $this->prepareGlobals($request);
+
+        $factory = app()->make('brainkit.widget');
+        $widgetName = $request->input('name', '');
+        $widgetParams = unserialize($request->input('params', ''));
 
         return call_user_func_array([$factory, $widgetName], $widgetParams);
+    }
+
+    /**
+     * Set some specials variables to modify the workflow of the widget factory.
+     *
+     * @param Request $request
+     */
+    protected function prepareGlobals(Request $request)
+    {
+        WidgetId::set($request->input('id', 1) - 1);
+        AbstractWidgetFactory::$skipWidgetContainer = true;
     }
 }

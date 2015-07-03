@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Arrilot\Widgets\Factories;
+namespace spec\Brainkit\Widgets\Factories;
 
-use Arrilot\Widgets\Misc\Wrapper;
-use Arrilot\Widgets\WidgetId;
+use Brainkit\Widgets\Misc\Wrapper;
+use Brainkit\Widgets\WidgetId;
 use PhpSpec\ObjectBehavior;
 
 class AsyncWidgetFactorySpec extends ObjectBehavior
@@ -11,7 +11,7 @@ class AsyncWidgetFactorySpec extends ObjectBehavior
     protected $config = [
         'defaultNamespace' => 'App\Widgets',
         'customNamespaces' => [
-            'slider'          => 'spec\Arrilot\Widgets\Dummies',
+            'slider'          => 'spec\Brainkit\Widgets\Dummies',
             'testWidgetName'  => '',
         ],
     ];
@@ -43,7 +43,7 @@ class AsyncWidgetFactorySpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Arrilot\Widgets\Factories\AsyncWidgetFactory');
+        $this->shouldHaveType('Brainkit\Widgets\Factories\AsyncWidgetFactory');
     }
 
     public function it_can_run_async_widget(Wrapper $wrapper)
@@ -55,8 +55,8 @@ class AsyncWidgetFactorySpec extends ObjectBehavior
 
         $this->testDefaultSlider($config)
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">'.
-                "<script type=\"text/javascript\">$('#arrilot-widget-container-1').load('/arrilot/load-widget', ".$this->mockProduceJavascriptData('TestDefaultSlider', $params).')</script>'.
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">'.
+                "<script type=\"text/javascript\">$('#brainkit-widget-container-1').load('/brainkit/load-widget', ".$this->mockProduceJavascriptData('TestDefaultSlider', $params).')</script>'.
                 '</div>'
             );
     }
@@ -70,8 +70,8 @@ class AsyncWidgetFactorySpec extends ObjectBehavior
 
         $this->slider($config)
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Placeholder here!'.
-                "<script type=\"text/javascript\">$('#arrilot-widget-container-1').load('/arrilot/load-widget', ".$this->mockProduceJavascriptData('Slider', $params).')</script>'.
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Placeholder here!'.
+                "<script type=\"text/javascript\">$('#brainkit-widget-container-1').load('/brainkit/load-widget', ".$this->mockProduceJavascriptData('Slider', $params).')</script>'.
                 '</div>'
             );
     }
@@ -85,15 +85,15 @@ class AsyncWidgetFactorySpec extends ObjectBehavior
 
         $this->slider()
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Placeholder here!'.
-                "<script type=\"text/javascript\">$('#arrilot-widget-container-1').load('/arrilot/load-widget', ".$this->mockProduceJavascriptData('Slider').')</script>'.
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Placeholder here!'.
+                "<script type=\"text/javascript\">$('#brainkit-widget-container-1').load('/brainkit/load-widget', ".$this->mockProduceJavascriptData('Slider').')</script>'.
                 '</div>'
             );
 
         $this->testDefaultSlider($config)
             ->shouldReturn(
-                '<div id="arrilot-widget-container-2" style="display:inline" class="arrilot-widget-container">'.
-                "<script type=\"text/javascript\">$('#arrilot-widget-container-2').load('/arrilot/load-widget', ".$this->mockProduceJavascriptData('TestDefaultSlider', $params, 2).')</script>'.
+                '<div id="brainkit-widget-container-2" style="display:inline" class="brainkit-widget-container">'.
+                "<script type=\"text/javascript\">$('#brainkit-widget-container-2').load('/brainkit/load-widget', ".$this->mockProduceJavascriptData('TestDefaultSlider', $params, 2).')</script>'.
                 '</div>'
             );
     }
@@ -109,8 +109,8 @@ class AsyncWidgetFactorySpec extends ObjectBehavior
 
         $this->testWidgetWithParamsInRun([], 'param')
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Placeholder here!'.
-                "<script type=\"text/javascript\">$('#arrilot-widget-container-1').load('/arrilot/load-widget', ".$this->mockProduceJavascriptData('TestWidgetWithParamsInRun', $params).')</script>'.
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Placeholder here!'.
+                "<script type=\"text/javascript\">$('#brainkit-widget-container-1').load('/brainkit/load-widget', ".$this->mockProduceJavascriptData('TestWidgetWithParamsInRun', $params).')</script>'.
                 '</div>'
             );
     }
@@ -124,8 +124,8 @@ class AsyncWidgetFactorySpec extends ObjectBehavior
 
         $this->run('testDefaultSlider', $config)
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">'.
-                "<script type=\"text/javascript\">$('#arrilot-widget-container-1').load('/arrilot/load-widget', ".$this->mockProduceJavascriptData('TestDefaultSlider', $params).')</script>'.
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">'.
+                "<script type=\"text/javascript\">$('#brainkit-widget-container-1').load('/brainkit/load-widget', ".$this->mockProduceJavascriptData('TestDefaultSlider', $params).')</script>'.
                 '</div>'
             );
     }
@@ -139,8 +139,8 @@ class AsyncWidgetFactorySpec extends ObjectBehavior
 
         $this->run('Profile\TestNamespace\TestFeed', $config)
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">'.
-                "<script type=\"text/javascript\">$('#arrilot-widget-container-1').load('/arrilot/load-widget', ".$this->mockProduceJavascriptData('Profile\TestNamespace\TestFeed', $params).')</script>'.
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">'.
+                "<script type=\"text/javascript\">$('#brainkit-widget-container-1').load('/brainkit/load-widget', ".$this->mockProduceJavascriptData('Profile\TestNamespace\TestFeed', $params).')</script>'.
                 '</div>'
             );
     }
@@ -154,8 +154,8 @@ class AsyncWidgetFactorySpec extends ObjectBehavior
 
         $this->run('profile.testNamespace.testFeed', $config)
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">'.
-                "<script type=\"text/javascript\">$('#arrilot-widget-container-1').load('/arrilot/load-widget', ".$this->mockProduceJavascriptData('Profile\testNamespace\testFeed', $params).')</script>'.
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">'.
+                "<script type=\"text/javascript\">$('#brainkit-widget-container-1').load('/brainkit/load-widget', ".$this->mockProduceJavascriptData('Profile\testNamespace\testFeed', $params).')</script>'.
                 '</div>'
             );
     }

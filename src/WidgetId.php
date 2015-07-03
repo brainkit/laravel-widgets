@@ -1,6 +1,6 @@
 <?php
 
-namespace Arrilot\Widgets;
+namespace Brainkit\Widgets;
 
 class WidgetId
 {

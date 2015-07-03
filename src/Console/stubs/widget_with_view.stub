@@ -2,7 +2,7 @@
 
 namespace {{namespace}};
 
-use Arrilot\Widgets\AbstractWidget;
+use Brainkit\Widgets\AbstractWidget;
 
 class {{class}} extends AbstractWidget
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Arrilot\Widgets;
+namespace spec\Brainkit\Widgets;
 
 use PhpSpec\ObjectBehavior;
 
@@ -8,7 +8,7 @@ class WidgetGroupSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Arrilot\Widgets\WidgetGroup');
+        $this->shouldHaveType('Brainkit\Widgets\WidgetGroup');
     }
 
     public function let()

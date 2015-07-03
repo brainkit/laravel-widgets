@@ -1,8 +1,8 @@
 <?php
 
-namespace Arrilot\Widgets\Factories;
+namespace Brainkit\Widgets\Factories;
 
-use Arrilot\Widgets\WidgetId;
+use Brainkit\Widgets\WidgetId;
 
 class JavascriptFactory
 {
@@ -18,7 +18,7 @@ class JavascriptFactory
      *
      * @var string
      */
-    protected $ajaxLink = '/arrilot/load-widget';
+    protected $ajaxLink = '/brainkit/load-widget';
 
     /**
      * @param $widgetFactory
@@ -72,6 +72,6 @@ class JavascriptFactory
      */
     public function getContainerId()
     {
-        return 'arrilot-widget-container-'.WidgetId::get();
+        return 'brainkit-widget-container-'.WidgetId::get();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Arrilot\Widgets\Misc;
+namespace Brainkit\Widgets\Misc;
 
 class InvalidWidgetClassException extends \Exception
 {
@@ -9,5 +9,5 @@ class InvalidWidgetClassException extends \Exception
      *
      * @var string
      */
-    protected $message = 'Widget class must extend Arrilot\Widgets\AbstractWidget class';
+    protected $message = 'Widget class must extend Brainkit\Widgets\AbstractWidget class';
 }

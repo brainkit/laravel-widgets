@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Arrilot\Widgets\Factories;
+namespace spec\Brainkit\Widgets\Factories;
 
 use App\Widgets\Profile\TestNamespace\TestFeed;
 use App\Widgets\TestDefaultSlider;
@@ -9,11 +9,11 @@ use App\Widgets\TestRepeatableFeed;
 use App\Widgets\TestWidgetWithCustomCssClass;
 use App\Widgets\TestWidgetWithDIInRun;
 use App\Widgets\TestWidgetWithParamsInRun;
-use Arrilot\Widgets\Misc\Wrapper;
-use Arrilot\Widgets\WidgetId;
+use Brainkit\Widgets\Misc\Wrapper;
+use Brainkit\Widgets\WidgetId;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use spec\Arrilot\Widgets\Dummies\Slider;
+use spec\Brainkit\Widgets\Dummies\Slider;
 
 class WidgetFactorySpec extends ObjectBehavior
 {
@@ -38,8 +38,8 @@ class WidgetFactorySpec extends ObjectBehavior
     protected $config = [
         'defaultNamespace' => 'App\Widgets',
         'customNamespaces' => [
-                'slider'             => 'spec\Arrilot\Widgets\Dummies',
-                'testRepeatableFeed' => 'spec\Arrilot\Widgets\Dummies',
+                'slider'             => 'spec\Brainkit\Widgets\Dummies',
+                'testRepeatableFeed' => 'spec\Brainkit\Widgets\Dummies',
                 'testWidgetName'     => '',
             ],
         ];
@@ -52,7 +52,7 @@ class WidgetFactorySpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Arrilot\Widgets\Factories\WidgetFactory');
+        $this->shouldHaveType('Brainkit\Widgets\Factories\WidgetFactory');
     }
 
     public function it_can_run_widget_from_default_namespace(Wrapper $wrapper)
@@ -62,7 +62,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->testDefaultSlider()
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Default test slider was executed with $slides = 6</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Default test slider was executed with $slides = 6</div>'
             );
     }
 
@@ -73,7 +73,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->slider()
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Slider was executed with $slides = 6</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 6</div>'
             );
     }
 
@@ -84,13 +84,13 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->slider(['slides' => 5])
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Slider was executed with $slides = 5</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 5</div>'
             );
     }
 
     public function it_throws_exception_for_bad_widget_class()
     {
-        $this->shouldThrow('\Arrilot\Widgets\Misc\InvalidWidgetClassException')->during('testBadSlider');
+        $this->shouldThrow('\Brainkit\Widgets\Misc\InvalidWidgetClassException')->during('testBadSlider');
     }
 
     public function it_can_run_widgets_with_additional_params(Wrapper $wrapper)
@@ -100,7 +100,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->testWidgetWithParamsInRun([], 'asc')
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">TestWidgetWithParamsInRun was executed with $flag = asc</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">TestWidgetWithParamsInRun was executed with $flag = asc</div>'
             );
     }
 
@@ -111,7 +111,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->testWidgetWithParamsInRun()
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">bar</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">bar</div>'
             );
     }
 
@@ -122,7 +122,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->run('testDefaultSlider')
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Default test slider was executed with $slides = 6</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Default test slider was executed with $slides = 6</div>'
             );
     }
 
@@ -133,7 +133,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->run('slider', ['slides' => 5])
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Slider was executed with $slides = 5</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 5</div>'
             );
     }
 
@@ -144,7 +144,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->run('Profile\TestNamespace\TestFeed', ['slides' => 5])
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Feed was executed with $slides = 6</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Feed was executed with $slides = 6</div>'
             );
     }
 
@@ -155,7 +155,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->run('profile.testNamespace.testFeed', ['slides' => 5])
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Feed was executed with $slides = 6</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Feed was executed with $slides = 6</div>'
             );
     }
 
@@ -166,7 +166,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->slider()
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Slider was executed with $slides = 6</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 6</div>'
             );
 
         $wrapper->appCall(Argument::any(), Argument::any())->willReturn(
@@ -174,7 +174,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->slider(['slides' => 5])
             ->shouldReturn(
-                '<div id="arrilot-widget-container-2" style="display:inline" class="arrilot-widget-container">Slider was executed with $slides = 5</div>'
+                '<div id="brainkit-widget-container-2" style="display:inline" class="brainkit-widget-container">Slider was executed with $slides = 5</div>'
             );
     }
 
@@ -190,8 +190,8 @@ class WidgetFactorySpec extends ObjectBehavior
 
         $this->testRepeatableFeed($config)
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="arrilot-widget-container">Feed was executed with $slides = 6'.
-                '<script type="text/javascript">setTimeout( function() { $(\'#arrilot-widget-container-1\').load(\'/arrilot/load-widget\', '.$this->mockProduceJavascriptData('TestRepeatableFeed', $params).') }, 10000)</script>'.
+                '<div id="brainkit-widget-container-1" style="display:inline" class="brainkit-widget-container">Feed was executed with $slides = 6'.
+                '<script type="text/javascript">setTimeout( function() { $(\'#brainkit-widget-container-1\').load(\'/brainkit/load-widget\', '.$this->mockProduceJavascriptData('TestRepeatableFeed', $params).') }, 10000)</script>'.
                 '</div>'
             );
     }
@@ -203,7 +203,7 @@ class WidgetFactorySpec extends ObjectBehavior
         );
         $this->run('testWidgetWithCustomCssClass')
             ->shouldReturn(
-                '<div id="arrilot-widget-container-1" style="display:inline" class="dummyClass">Dummy Content</div>'
+                '<div id="brainkit-widget-container-1" style="display:inline" class="dummyClass">Dummy Content</div>'
             );
     }
 }
